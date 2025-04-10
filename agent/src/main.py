@@ -1,8 +1,6 @@
-import random
-from pydantic_ai import Agent, RunContext
-from pydantic_ai.models.openai import OpenAIModel
-from pydantic_ai.providers.openai import OpenAIProvider
-from pydantic_ai.settings import ModelSettings
+from enum import Enum
+from pydantic import BaseModel
+from pydantic_ai import Agent
 from pydantic_ai.mcp import MCPServerStdio
 import logfire
 import asyncio
@@ -15,8 +13,25 @@ logfire.instrument_httpx(capture_all=True)
 
 server = MCPServerStdio("docker", args=["run", "-i", "--rm", "-e", "GOOGLE_MAPS_API_KEY=AIzaSyBL1GIM_XOuCgZmO_F7weNpdKYBwVYRxgE", "mcp/google-maps"])
 
+class Price(str, Enum):
+    cheap = '$'
+    medium = '$$'
+    pricey = '$$$'
+    expensive = '$$$$'
+
+class Restaurant(BaseModel):
+    name: str
+    address: str
+    price: Price
+
+class Recommendation(BaseModel):
+    restaurants: list[Restaurant]
+    question: str
+    
+
 agent = Agent(
     model="google-gla:gemini-1.5-flash",
+    result_type=Recommendation,
     system_prompt="""
 Google Maps Place Recommendation Agent - Official MCP Integration
 
@@ -104,30 +119,15 @@ Cache or reuse old data
 
 Response Format
 
-"Based on real-time queries using Google Maps MCP tools:
+if you want more information from the user, the field "question" has to include something to ask for the user.
+the field "restaurants" should be filled with recommendations for the user, but if you don't know where 
+the user is, that list should be empty.
 
-[Place Name] (Retrieved using maps_search_places)
+NEVER recommend more than 5 restaurants
 
-Verified Location: [Data from maps_geocode]
-Current Details: [Data from maps_place_details]
-Distance/Time: [Data from maps_distance_matrix]
-Available Routes: [Data from maps_directions]
-[Include only data actually retrieved from MCP tools]
+Always try to get more information from the user, so you can suggest better restaurants.
 
-Would you like me to:
 
-Perform another location search?
-Get more detailed information about this place?
-Calculate travel times from your location?
-Find directions to any of these locations?"
-
-Important Rules
-
-Only use documented MCP tools
-Always indicate which tool provided the data
-If a tool fails or data is unavailable, communicate this clearly
-Maintain transparency about data sources
-Request clarification when needed for accurate queries
 
 Remember: Your responses must be based SOLELY on real data retrieved through these official MCP tools. No simulated or assumed information.
 """,

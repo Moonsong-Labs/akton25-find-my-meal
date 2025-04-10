@@ -35,4 +35,4 @@ async def post_prompt(session_id: str, prompt: UserPrompt):
     response = await agent.run(prompt.message, message_history = history)
 
     history.extend(response.all_messages())
-    return { "text": response.data }
+    return response.data
