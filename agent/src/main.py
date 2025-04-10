@@ -137,19 +137,6 @@ Remember: Your responses must be based SOLELY on real data retrieved through the
     mcp_servers=[server]
 )
 
-
-#@agent.tool_plain
-#def roll_die() -> str:
-#    """Roll a six-sided die and return the result."""
-#    return str(random.randint(1, 6))
-
-
-#@agent.tool
-#def get_player_name(ctx: RunContext[str]) -> str:
-#    """Get the player's name."""
-#    return ctx.deps
-
-
 async def main():
     try:
         async with agent.run_mcp_servers():
