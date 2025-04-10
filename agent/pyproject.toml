@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "agent"
+version = "0.1.0"
+description = ""
+authors = ["calvo.generico <miguelfeliped@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pydantic = "^2.11.3"
+pydantic-ai = "^0.0.55"
+httpx = "^0.28.1"
+devtools = "^0.12.2"
+logfire = {extras = ["httpx"], version = "^3.13.1"}
+asyncio = "^3.4.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
