@@ -1,12 +1,25 @@
-// Updated: Environment configuration
-// - Added flutter_dotenv integration
-// - Updated API configuration
+// Created: Environment configuration
+// - Added environment variables loading
+// - Added server configuration
+// - Added API keys configuration
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class Env {
-  static String get klusterApiKey => dotenv.env['KLUSTER_AI_API_KEY'] ?? '';
-  
-  static const String klusterApiEndpoint = 'https://api.kluster.ai/v1/chat/completions';
-  static const String klusterModel = 'meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8';
+  static String get modelServerUrl => 
+    dotenv.env['MODEL_SERVER_URL'] ?? 'http://localhost:8000';
+    
+  static String get googleMapsApiKey =>
+    dotenv.env['GOOGLE_MAPS_API_KEY'] ?? '';
+
+  static Future<void> load() async {
+    try {
+      await dotenv.load(fileName: ".env");
+    } catch (e) {
+      print('Warning: .env file not found. Using default values.');
+    }
+  }
+
+  static bool get isProduction =>
+    const bool.fromEnvironment('dart.vm.product');
 } 

@@ -5,18 +5,16 @@
         "default_language": "en",
         "default_region": "US"
     },
+    "server": {
+        "base_url": "${MODEL_SERVER_URL}",
+        "timeout_seconds": 30,
+        "max_retries": 3
+    },
     "mcp": {
         "max_retries": 3,
         "timeout_seconds": 30,
         "cache_enabled": true,
         "cache_ttl_minutes": 60
-    },
-    "kluster_ai": {
-        "model_name": "meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8",
-        "api_key": "${KLUSTER_AI_API_KEY}",
-        "max_tokens": 4000,
-        "temperature": 0.6,
-        "top_p": 1
     },
     "logging": {
         "level": "INFO",
