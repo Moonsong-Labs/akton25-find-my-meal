@@ -1,5 +1,4 @@
 from contextlib import asynccontextmanager
-from typing import Union
 from pydantic import BaseModel
 
 
@@ -16,7 +15,6 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 sessions = {} # session_id => context
-
 
 class UserPrompt(BaseModel):
     message: str
