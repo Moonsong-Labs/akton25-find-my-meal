@@ -1,10 +1,15 @@
+// Updated: Main entry point
+// - Added environment loading
+// - Updated app initialization
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'pages/home_page.dart';
-import 'pages/search_page.dart';
-import 'pages/restaurant_detail_page.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'screens/welcome_screen.dart';
 
-void main() {
+Future<void> main() async {
+  // Load environment variables
+  await dotenv.load(fileName: '.env');
   runApp(const MyApp());
 }
 
@@ -14,22 +19,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Find My Meal',
+      title: 'MealSeek',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFFE91E63),
-          primary: const Color(0xFFE91E63),
-          secondary: const Color(0xFF9C27B0),
+          seedColor: const Color(0xFF2A2A2A),
+          primary: const Color(0xFF2A2A2A),
+          secondary: const Color(0xFFD4AF37),
         ),
+        textTheme: GoogleFonts.poppinsTextTheme(),
         useMaterial3: true,
-        textTheme: GoogleFonts.latoTextTheme(),
       ),
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const HomePage(),
-        '/search': (context) => const SearchPage(),
-        '/restaurant-detail': (context) => const RestaurantDetailPage(),
-      },
+      home: const WelcomeScreen(),
     );
   }
 }

@@ -1,71 +1,98 @@
-# find-my-meal
-It’s late on a Friday night, you’re hungry, and your significant other hits you with the question: “Where should we eat?”. The familiar spiral of indecision starts. Instead of drowning in endless Google searches, scrolling through reviews, and debating menus, let Find My Meal take charge.
+# Find My Meal
+
+A Flutter application that helps you find the perfect restaurant using voice interactions and AI-powered recommendations.
 
 ## Features
 
-- Natural language restaurant search
-- Query optimization using Kluster AI
-- Real-time search results from Google Maps
-- Detailed restaurant information
-- Modern, responsive UI
+- 🎙️ Voice-controlled interface for natural interactions
+- 🤖 AI-powered restaurant recommendations
+- 🎯 Smart query optimization for Google Maps
+- 👆 Tinder-like swipe interface for restaurant selection
+- ⭐ Super-like functionality for perfect matches
+- 📍 Detailed restaurant information and directions
 
-## Tech Stack
+## Prerequisites
 
-- Frontend: Next.js, TypeScript, Tailwind CSS
-- Backend: Python, FastAPI
-- AI: Kluster AI for query optimization
-- Maps: Google Maps API
+Before you begin, ensure you have the following installed:
+- [Flutter](https://flutter.dev/docs/get-started/install) (2.0.0 or higher)
+- [Dart](https://dart.dev/get-dart) (2.12.0 or higher)
+- [Android Studio](https://developer.android.com/studio) or [VS Code](https://code.visualstudio.com/) with Flutter extensions
+- [Git](https://git-scm.com/)
 
-## Setup
+## Installation
 
-1. Clone the repository
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/find-my-meal.git
+cd find-my-meal
+```
+
 2. Install dependencies:
-   ```bash
-   # Frontend
-   cd frontend
-   npm install
+```bash
+flutter pub get
+```
 
-   # Backend
-   cd ../backend
-   pip install -r requirements.txt
-   ```
+3. Run the app:
+```bash
+flutter run
+```
 
-3. Set up environment variables:
-   - Create `.env.local` in the frontend directory:
-     ```
-     NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_google_maps_api_key
-     ```
-   - Create `.env` in the backend directory:
-     ```
-     GOOGLE_MAPS_API_KEY=your_google_maps_api_key
-     KLUSTER_API_KEY=your_kluster_api_key
-     ```
+## Usage
 
-4. Start the development servers:
-   ```bash
-   # Frontend
-   cd frontend
-   npm run dev
+1. **Initial Setup**
+   - Launch the app
+   - Grant microphone permissions when prompted
+   - Follow the onboarding flow
 
-   # Backend
-   cd ../backend
-   uvicorn main:app --reload
-   ```
+2. **Voice Interaction**
+   - Press and hold the microphone button to speak
+   - Release to send your message
+   - Wait for the AI response
 
-## How It Works
+3. **Restaurant Discovery**
+   - Complete the conversation with the AI
+   - Press "Next" when ready
+   - Wait for restaurant recommendations to load
 
-1. User enters a natural language query (e.g., "Find me a cozy Italian restaurant with outdoor seating")
-2. The query is sent to Kluster AI for optimization
-3. Kluster AI converts the natural language into a structured Google Maps search query
-4. The optimized query is used to search Google Maps
-5. Results are displayed to the user with detailed restaurant information
+4. **Restaurant Selection**
+   - Swipe right to save a restaurant
+   - Swipe left to skip
+   - Press the center button to super-like (perfect match)
+   - View detailed information for matched restaurants
 
-## API Endpoints
+## Dependencies
 
-- `POST /api/restaurants/search`: Search for restaurants using natural language
-  - Request body: `{ "query": "your search query" }`
-  - Response: List of restaurants with details
+The app uses the following key packages:
+- `flutter_tts`: For text-to-speech functionality
+- `speech_to_text`: For voice input processing
+- `google_fonts`: For typography
+- [Add other major dependencies]
+
+## Troubleshooting
+
+**Microphone not working?**
+- Ensure microphone permissions are granted
+- Check if another app is using the microphone
+- Restart the app
+
+**Voice recognition issues?**
+- Speak clearly and at a normal pace
+- Ensure you have a stable internet connection
+- Try restarting the app
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## License
 
-MIT 
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- Flutter team for the amazing framework
+- [Add other acknowledgments] 

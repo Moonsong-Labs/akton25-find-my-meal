@@ -37,6 +37,16 @@ dependencies:
   google_maps_flutter: ^2.5.3
   geolocator: ^10.1.0
   google_fonts: ^6.1.0
+  # Added for voice recognition
+  speech_to_text: ^6.5.1
+  path_provider: ^2.1.2
+  http: ^1.2.0
+  permission_handler: ^11.2.0
+  # Added for location services
+  geocoding: ^2.1.1
+  flutter_dotenv: ^5.1.0
+  # Added for text-to-speech
+  flutter_tts: ^3.8.5
 
 dev_dependencies:
   flutter_test:
@@ -95,3 +105,4 @@ flutter:
 
   assets:
     - assets/images/
+    - .env
