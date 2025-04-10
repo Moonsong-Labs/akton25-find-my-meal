@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "google_maps_agent"
+version = "0.1.0"
+description = "A Google Maps MCP Agent for restaurant recommendations using LLaMA"
+authors = ["Your Name <your.email@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+python-dotenv = "^1.0.0"
+requests = "^2.31.0"
+openai = "^1.12.0"
+
+[tool.poetry.scripts]
+test-llm = "test_llm:main"
+start-agent = "main:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api" 
