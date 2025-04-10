@@ -22,7 +22,7 @@ class UserPrompt(BaseModel):
 
 @app.get("/sessions")
 def active_sessions():
-    return list(sessions.keys)
+    return list(sessions.keys())
 
 
 @app.post("/prompt/{session_id}")
