@@ -1,24 +1,50 @@
-from datetime import datetime
-
-from pydantic_ai import Agent
+import random
+from pydantic_ai import Agent, RunContext
 from pydantic_ai.models.openai import OpenAIModel
 from pydantic_ai.providers.openai import OpenAIProvider
+from pydantic_ai.settings import ModelSettings
+import logfire
+import asyncio
+from dotenv import load_dotenv
 
+load_dotenv()
 
-my_provider = OpenAIProvider(
-    base_url='https://api.kluster.ai/v1',
-    api_key='dc65de43-622f-4a1e-a4a8-4d2f2e84298a',
+logfire.configure()
+logfire.instrument_httpx(capture_all=True)
+
+agent = Agent(
+    model="google-gla:gemini-1.5-flash",
+    system_prompt="""
+You're a dice game, you should roll the die and see if the number
+you get back matches the user's guess. If so, tell them they're a winner.
+If not, tell them they're a loser.
+Use the player's name in the response.
+""",
+    deps_type=str,
+    retries=1,
+    instrument=True,
 )
 
-my_model = OpenAIModel(
-        model_name='meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8',
-        provider=my_provider,
-    )
 
-example_agent = Agent(
-    model=my_model,
-    tools=[],
-)
+@agent.tool_plain
+def roll_die() -> str:
+    """Roll a six-sided die and return the result."""
+    return str(random.randint(1, 6))
 
-result_sync = example_agent.run_sync('What is the capital of Italy?')
-print(result_sync.data)
+
+@agent.tool
+def get_player_name(ctx: RunContext[str]) -> str:
+    """Get the player's name."""
+    return ctx.deps
+
+
+async def main():
+    try:
+        result = await agent.run("My guess is 4", deps="Agustin")
+        print("Result:", result.data, "\n")
+    except Exception as e:
+        print("Oops, something went wrong:", repr(e), "\n")
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
