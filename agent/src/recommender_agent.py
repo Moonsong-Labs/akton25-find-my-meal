@@ -10,25 +10,19 @@ from datetime import datetime
 
 load_dotenv()
 
-server = MCPServerStdio("docker", args=["run", "-i", "--rm", "-e", "GOOGLE_MAPS_API_KEY=AIzaSyDwqK4YNI0bVYU4HC0IiB52frK6jP70GjA", "mcp/google-maps"])
+server = MCPServerStdio("docker", args=["run", "-i", "--rm", "-e", "GOOGLE_MAPS_API_KEY=", "mcp/google-maps"])
 
-class Price(str, Enum):
-    cheap = '$'
-    medium = '$$'
-    pricey = '$$$'
-    expensive = '$$$$'
- 
 class Restaurant(BaseModel):
     name: str
-    address: str
-    price: Price
- 
+    place_id: str
+    why_is_a_good_choice_for_you: str
+
 class Recommendation(BaseModel):
-    restaurants: list[Restaurant]
-    question: str
+    restaurants: List[Restaurant]
 
 agent2 = Agent(
     model="google-gla:gemini-1.5-flash",
+    result_type=Recommendation,
     system_prompt="""
 Google Maps Place Recommendation Agent - Official MCP Integration
 
@@ -117,15 +111,13 @@ Cache or reuse old data
 
 Response Format
  
- Based on real-time queries using Google Maps MCP tools:
- 
-[Place Name] (Retrieved using maps_search_places)
- 
-Verified Location: [Data from maps_geocode]
-Current Details: [Data from maps_place_details]
-Distance/Time: [Data from maps_distance_matrix]
-Available Routes: [Data from maps_directions]
-[Include only data actually retrieved from MCP tools]
+the field "restaurants" should be filled with recommendations for the user, but if you don't know where 
+the user is, that list should be empty.
+
+the fields you should fill for each restaurants are:
+    name: name of the restaurant
+    place_id: restaurant google maps place_id
+    why_is_a_good_choice_for_you: small text justificating why your choice is good for the user
 
 Important Rules
 

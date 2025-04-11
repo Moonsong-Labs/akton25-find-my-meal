@@ -17,11 +17,11 @@ logfire.instrument_httpx(capture_all=True)
 async def main():
     try:
         #agent2.run_mcp_servers();
-        async with agent.run_mcp_servers():
+        async with agent2.run_mcp_servers():
             result = []
             while True:
                 user_input = input()
-                result1 = await agent.run(user_input, message_history=result)
+                result1 = await agent2.run(user_input, message_history=result)
                 result.extend(result1.all_messages())
                 print("Result:", result1.data, "\n")
     except Exception as e:
