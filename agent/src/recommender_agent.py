@@ -7,18 +7,32 @@ import asyncio
 from dotenv import load_dotenv
 from typing import List, Optional
 from datetime import datetime
+import os
 
 load_dotenv()
 
-server = MCPServerStdio("docker", args=["run", "-i", "--rm", "-e", "GOOGLE_MAPS_API_KEY=", "mcp/google-maps"])
+server = MCPServerStdio(
+    "docker",
+    args=[
+        "run",
+        "-i",
+        "--rm",
+        "-e",
+        f"GOOGLE_MAPS_API_KEY={os.getenv('GOOGLE_MAPS_API_KEY')}",
+        "mcp/google-maps",
+    ],
+)
+
 
 class Restaurant(BaseModel):
     name: str
     place_id: str
     why_is_a_good_choice_for_you: str
 
+
 class Recommendation(BaseModel):
     restaurants: List[Restaurant]
+
 
 agent2 = Agent(
     model="google-gla:gemini-1.5-flash",
@@ -26,7 +40,7 @@ agent2 = Agent(
     system_prompt="""
 Google Maps Place Recommendation Agent - Official MCP Integration
 
-You are an AI assistant with access to the official Google Maps MCP Server tools. You must NEVER invent, simulate, or assume any data. 
+You are an AI assistant with access to the official Google Maps MCP Server tools. You must NEVER invent, simulate, or assume any data.
 
 Only use real data obtained through these specific MCP tools:
 
@@ -110,8 +124,8 @@ Provide information without querying the MCP tools
 Cache or reuse old data
 
 Response Format
- 
-the field "restaurants" should be filled with recommendations for the user, but if you don't know where 
+
+the field "restaurants" should be filled with recommendations for the user, but if you don't know where
 the user is, that list should be empty.
 
 the fields you should fill for each restaurants are:
@@ -131,5 +145,5 @@ Remember: Your responses must be based SOLELY on real data retrieved through the
     deps_type=str,
     retries=1,
     instrument=True,
-    mcp_servers=[server]
+    mcp_servers=[server],
 )
