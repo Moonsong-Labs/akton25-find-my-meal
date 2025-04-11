@@ -4,6 +4,7 @@ from pydantic_ai.usage import UsageLimits
 
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from information_agent import agent
 from recommender_agent import agent2
 
@@ -16,6 +17,23 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
+
+# Define allowed origins
+origins = [
+    "http://localhost:3000",  # Default Next.js dev server
+    "http://127.0.0.1:3000",  # Another common localhost variant
+    # Add your deployed frontend URL here if applicable
+    # e.g., "https://your-frontend-domain.com"
+]
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all standard methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allows all headers
+)
 
 sessions = {}  # session_id => context
 
