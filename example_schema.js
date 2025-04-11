@@ -51,7 +51,7 @@ const restaurantSchema = {
       // Direct menu link - can be from Google Maps or optiona if not available
       "menuLink": "https://www.deliciousbites.com/menu"
     },
-    
+
     // Opening hours for each day of the week from Google Maps API
     "openingHours": [
       {
